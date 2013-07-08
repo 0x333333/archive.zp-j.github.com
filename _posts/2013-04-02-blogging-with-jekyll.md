@@ -12,7 +12,7 @@ tags: []
 	<small>Tom Preston-Werner</small>
 </blockquote>
 
-With the help of [GitHub](http://github.com), [GitHub Pages](http://pages.github.com/), [Hover](http://hover.com) and [Jekyll](https://github.com/mojombo/jekyll), DanielSposito.com is now up and running!
+With the help of [GitHub](http://github.com), [GitHub Pages](http://pages.github.com/), [Hover](http://hover.com) and [Jekyll](https://github.com/mojombo/jekyll), jesusjzp.github.com is now up and running!
 
 This project has been my first use of [Jekyll](https://github.com/mojombo/jekyll) and the [Liquid](https://github.com/Shopify/liquid/wiki) template language and so far everything has been very straightforward.
 
