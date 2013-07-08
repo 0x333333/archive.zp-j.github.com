@@ -1,0 +1,47 @@
+---
+layout: page
+title : Home
+group: navigation
+---
+
+{% include JB/setup %}
+
+<div class="pull-right recent-posts">
+	<h3>Recent Posts</h3>
+	<ul>
+		{% for post in site.posts limit:5 %}
+		  <li><span>{{ post.date | date: "%B %d, %Y" }}</span>  : <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+
+<div class="main-content">
+	<blockquote>
+		<p>Creating personal products and services that positively impact the way a majority of society functions from day to day is how I strive to live my life.</p>
+		<small>Daniel Sposito</small>
+	</blockquote>
+	
+	<center>
+		<a href="http://www.linkedin.com/in/danielsposito" class="network-icon"><i class="icon-large icon-linkedin"></i></a>
+		<a href="https://github.com/dsposito" class="network-icon"><i class="icon-large icon-github"></i></a>
+		<a href="https://twitter.com/smwrxforever" class="network-icon network-twitter"><i class="icon-large icon-twitter"></i></a>
+	</center>
+</div>
+
+<script language="javascript">
+	var greetings = [
+		'Hello World',
+		'Hola',
+		'Olá',
+		'Aloha',
+		'Bonjour',
+		'Hallo',
+		'Buon Giorno',
+		'Xin Chao',
+		'Konnichiwa',
+		'Namaste',
+		'привет',
+	];
+	
+	document.getElementById('page-title').innerHTML = greetings[Math.floor(Math.random() * greetings.length)];
+</script>
