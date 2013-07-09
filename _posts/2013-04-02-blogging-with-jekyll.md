@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Blogging With Jekyll"
-description: ""
+description: "example blog"
 category: 
 tags: []
 ---

@@ -1,3 +1,16 @@
+# Personnal Blog
+
+It is a personnal blog based on Jekyll-bootstrap and template from [Daniel](https://github.com/dsposito).
+
+## Details
+
+You can visit this blog from here: [http://jesusjzp.github.io](http://jesusjzp.github.io).
+
+There are three parts:
+- Home page, including recent posts
+- About, including my education information and main working experience
+- Blog, technical posts
+
 # Jekyll-Bootstrap
 
 The quickest way to start and publish your Jekyll powered blog. 100% compatible with GitHub pages

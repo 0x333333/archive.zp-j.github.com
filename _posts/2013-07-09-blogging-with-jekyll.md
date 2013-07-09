@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Blogging With Jekyll 2"
-description: ""
+title: "Welcome to Blogging With Jekyll"
+description: "First blog"
 category: 
 tags: []
 ---
@@ -11,6 +11,8 @@ tags: []
 	<p>Welcome to Jekyll - a simple, blog aware, static site generator.</p>
 	<small>Zhipeng JIANG</small>
 </blockquote>
+
+Welcome to visit my first blog in Github!
 
 With the help of [GitHub](http://github.com), [GitHub Pages](http://pages.github.com/), [Hover](http://hover.com) and [Jekyll](https://github.com/mojombo/jekyll), jesusjzp.github.com is now up and running!
 
