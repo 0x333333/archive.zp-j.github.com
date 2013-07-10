@@ -85,22 +85,4 @@ id sem consectetuer libero luctus adipiscing.
 > 
 >     return shell_exec("echo $input | $markdown_script");
 
-## 反斜杠
-
-Markdown 可以利用反斜杠来插入一些在语法中有其它意义的符号，例如：如果你想要用星号加在文字旁边的方式来做出强调效果（但不用 <em> 标签），你可以在星号的前面加上反斜杠：
-
-\*literal asterisks\*
-Markdown 支持以下这些符号前面加上反斜杠来帮助插入普通的符号：
-
->\   反斜线
->`   反引号
->*   星号
->_   底线
->{}  花括号
->[]  方括号
->()  括弧
->#   井字号
->+   加号
->-   减号
->.   英文句点
->!   惊叹号
+to be complete ...
