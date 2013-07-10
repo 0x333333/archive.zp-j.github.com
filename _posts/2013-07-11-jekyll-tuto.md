@@ -86,3 +86,5 @@ id sem consectetuer libero luctus adipiscing.
 >     return shell_exec("echo $input | $markdown_script");
 
 to be complete ...
+
+![Profile](../assets/images/profile.jpeg)
