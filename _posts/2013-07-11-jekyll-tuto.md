@@ -87,4 +87,4 @@ id sem consectetuer libero luctus adipiscing.
 
 to be complete ...
 
-![Profile](../assets/images/profile.jpeg)
+![Profile](/assets/images/profile.jpeg)
