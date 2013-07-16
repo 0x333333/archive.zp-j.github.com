@@ -1,0 +1,14 @@
+---
+layout: post
+title: "Coding4Fun"
+description: "Blogging while programming"
+category: "programming"
+tags: ["other"]
+---
+
+{% include JB/setup %}
+
+<blockquote>
+	<p>Let the hacking begin.</p>
+	<small>Mark</small>
+</blockquote>
