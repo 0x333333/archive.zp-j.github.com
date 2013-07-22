@@ -13,7 +13,7 @@ tags: ["other"]
 	<small>Zhipeng JIANG</small>
 </blockquote>
 
-![Profile](http://images.3158.cn/data/attachment/sichuan/article/2013/04/17/ed0d5bc1fb9eac2bb1571f72e74d1186.jpg)
+![Profile](http://media-cache-ak2.pinimg.com/736x/b3/d5/8c/b3d58c890dcc38df64bb7c45f576899e.jpg)
 
 ## CouchSurfing with Sohee Kong
 
