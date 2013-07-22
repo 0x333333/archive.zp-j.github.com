@@ -21,4 +21,6 @@ It's the most happiest memory for my 3-month internship in Lyon. It has been lon
 
 We started from Centre Berthelot and walked along the river Rhône, taking about her experience in US, the culture difference, her paris tour, and something about her family. The river is half blue and half green, without a tiny rubbish. The wind is gentle and I found her is beautifully.
 
-Around the Skatepark de Guillotière, we watched those guys playing bicycle and roller skating, that's really amazing! Although I have watched that for million times, but yestoday it was quite different. 
+Around the Skatepark de Guillotière, we watched those guys playing bicycle and roller skating, that's really amazing! Although I have watched that for million times, but yestoday it was quite different. The sun falled down, giving us soft sunshine and a pure blue sky.
+
+After that, we went to the playground Bellecour, well, personnally, it is not like what her name describes. Belle is far more than beautiful, it means elegant, charming and sort of mysterious. By passing Bellecour, we arrived ONLYLYON, the symbol of lyon. I took some pics for her.
