@@ -133,4 +133,4 @@ Alt-Shift-5 显示“断点”窗口
 Alt-Shift-6 显示“会话”窗口
 Ctrl-Shift-6 切换到“执行”窗口
 Alt-Shift-7 切换到“线程”窗口
-Alt-Shift-8 切换到“源”窗口 
+Alt-Shift-8 切换到“源”窗口
