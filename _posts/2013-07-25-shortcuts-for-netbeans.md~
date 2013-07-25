@@ -16,7 +16,8 @@ tags: ["tool"]
 
 ![Profile](http://4.bp.blogspot.com/-SeL9EHvb3nk/UYoQLhNPKSI/AAAAAAAAA6o/CnvhGkfdAzk/s320/1911488.png)
 
-#### 查找、搜索和替换
+
+### 查找、搜索和替换
 
 Ctrl-F3 搜索位于插入点的词
 F3/Shift-F3 在文件中查找下一个/上一个
@@ -32,7 +33,7 @@ Alt-U-U 将选定内容转换为大写
 Alt-U-L 将选定内容转换为小写
 Alt-U-R 对选定内容切换大小写
 
-#### 在源代码中导航
+### 在源代码中导航
 
 Alt-Shift-O 转至类
 Alt-Shift-E  转至 JUnit 测试
@@ -48,7 +49,7 @@ Ctrl-Shift-1/2/3 在“项目”/“文件”/“收藏夹”中选择
 Ctrl-[ 将插入记号移至匹配的方括号
 Ctrl-^ Ctrl-[（法语/比利时语键盘）
 
-#### 用Java编码
+### 用Java编码
 
 Ctrl-I 覆盖方法
 Alt-Shift-F/I 修复全部/选定类的导
@@ -75,7 +76,7 @@ Ctrl-Shift-数字键盘上的 - 折叠所有代码块
 Ctrl-Shift-数字键盘上的 + 展开所有代码块
 Alt-Enter 显示建议/提示
 
-#### 打开和切换视图
+### 打开和切换视图
 
 Ctrl-Shift-0 显示“搜索结果”窗口
 Ctrl-0 显示源代码编辑器
@@ -99,7 +100,7 @@ Ctrl-F4/Ctrl-W 关闭当前选定的窗口
 Ctrl-Shift-F4 关闭所有窗口
 Shift-F10 打开上下文菜单
 
-#### 编译、测试和运行
+### 编译、测试和运行
 
 F9 编译选定的包或文件
 F11 生成主项目
@@ -109,7 +110,7 @@ Ctrl-Shift-U 创建 JUnit 测试
 Ctrl-F6/Alt-F6 为文件/项目运行JUnit测试
 F6/Shift-F6 运行主项目/文件
 
-#### 调试
+### 调试
 
 F5 开始调试主项目
 Ctrl-Shift-F5 开始调试当前文件
