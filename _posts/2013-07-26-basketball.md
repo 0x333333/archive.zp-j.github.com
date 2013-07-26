@@ -3,11 +3,10 @@ layout: post
 title: "Street basketball"
 description: ""
 category: "Life"
-tags: ["Basketball"]
+tags: []
 ---
 
 ![Profile](http://farm5.staticflickr.com/4109/5611847260_df202f6f1a_z.jpg)
-
 
 今天跟几个日本人一起打球，有感而发
 
