@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Accordion List in Ionic and AngularJS · Zhipeng Jiang</title><meta name="description" content="Accordion List in Ionic and AngularJS - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Accordion List in Ionic and AngularJS</h1><div class="post-time">Jun 9, 2014</div><div class="post-content"><h2 id="Preparation"><a href="#Preparation" class="headerlink" title="Preparation"></a>Preparation</h2><p>Before introducing accordion list, here’s a quick tuto for Ionic:</p>
+<pre><code>npm install -g cordova ionic
+ionic start myApp tabs
+`&lt;/pre&gt;
+
+Ionic has three template:
+
+![pic](https://dl.dropboxusercontent.com/u/107773577/Blog%20pics/Screen%20Shot%202014-06-09%20at%203.57.50%20PM.png)
+
+Run your starter-app:
+
+&lt;pre&gt;`cd myApp
+ionic platform add ios
+ionic build ios
+ionic emulate ios
+`&lt;/pre&gt;
+
+## Accordion List
+
+How to implement accordion list with Ionicframework? To be frankly, it can be really simple with the help of ‘transition’ in CSS.
+
+![pic](https://dl.dropboxusercontent.com/u/107773577/Blog%20pics/Screen%20Shot%202014-06-09%20at%203.43.48%20PM.png)
+
+![pic](https://dl.dropboxusercontent.com/u/107773577/Blog%20pics/Screen%20Shot%202014-06-09%20at%203.44.02%20PM.png)
+
+The basic list html:
+
+&lt;pre&gt;`&amp;lt;ion-content class=&quot;has-header&quot;&amp;gt;
+  &amp;lt;ion-list&amp;gt;
+    &amp;lt;div ng-repeat=&quot;group in groups&quot;&amp;gt;
+      &amp;lt;ion-item class=&quot;item-stable&quot;
+                ng-click=&quot;toggleGroup(group)&quot;
+                ng-class=&quot;{active: isGroupShown(group)}&quot;&amp;gt;
+          &amp;lt;i class=&quot;icon&quot; ng-class=&quot;isGroupShown(group) ? &apos;ion-minus&apos; : &apos;ion-plus&apos;&quot;&amp;gt;&amp;lt;/i&amp;gt;
+        &amp;amp;nbsp;
+        Group 
+      &amp;lt;/ion-item&amp;gt;
+      &amp;lt;ion-item class=&quot;item-accordion&quot;
+                ng-repeat=&quot;item in group.items&quot;
+                ng-show=&quot;isGroupShown(group)&quot;&amp;gt;
+
+      &amp;lt;/ion-item&amp;gt;
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/ion-list&amp;gt;
+&amp;lt;/ion-content&amp;gt;
+`&lt;/pre&gt;
+
+The controller:
+
+&lt;pre&gt;`.controller(&apos;PlaylistsCtrl&apos;, function($scope) {
+    $scope.groups = [];
+  for (var i=0; i&amp;lt;5; i++) {
+    $scope.groups[i] = {
+      name: i,
+      items: []
+    };
+    for (var j=0; j&amp;lt;3; j++) {
+      $scope.groups[i].items.push(i + &apos;-&apos; + j);
+    }
+  }
+
+  /*
+   * if given group is the selected group, deselect it
+   * else, select the given group
+   */
+  $scope.toggleGroup = function(group) {
+    if ($scope.isGroupShown(group)) {
+      $scope.shownGroup = null;
+    } else {
+      $scope.shownGroup = group;
+    }
+  };
+  $scope.isGroupShown = function(group) {
+    return $scope.shownGroup === group;
+  };
+})
+`&lt;/pre&gt;
+
+The CSS file:
+
+&lt;pre&gt;`.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+</code></pre><p>You can find the original code here: <a href="http://codepen.io/ionic/pen/uJkCz?editors=101" target="_blank" rel="external">Click me</a></p>
+</div></article></div></section><footer><div class="paginator"><a href="/2014/06/16/JToDo-An-Android-Todo-App/" class="prev">PRVE</a><a href="/2014/06/06/胡言乱语2/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2014/06/09/Accordion-List-in-Ionic-and-AngularJS/';
+var disqus_title = 'Accordion List in Ionic and AngularJS';
+var disqus_url = 'http://yoursite.com/2014/06/09/Accordion-List-in-Ionic-and-AngularJS/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

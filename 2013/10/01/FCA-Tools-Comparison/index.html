@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> FCA Tools Comparison · Zhipeng Jiang</title><meta name="description" content="FCA Tools Comparison - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">FCA Tools Comparison</h1><div class="post-time">Oct 1, 2013</div><div class="post-content"><h1 id="1-Tools-list"><a href="#1-Tools-list" class="headerlink" title="1. Tools list"></a>1. Tools list</h1><ul>
+<li>Galicia, <a href="http://www.iro.umontreal.ca/~galicia/" target="_blank" rel="external">http://www.iro.umontreal.ca/~galicia/</a></li>
+<li>Lattice Miner, <a href="http://sourceforge.net/projects/lattice-miner/" target="_blank" rel="external">http://sourceforge.net/projects/lattice-miner/</a></li>
+<li>Open FCA, <a href="https://code.google.com/p/openfca/" target="_blank" rel="external">https://code.google.com/p/openfca/</a></li>
+</ul>
+<h1 id="2-Data-Resource"><a href="#2-Data-Resource" class="headerlink" title="2. Data Resource"></a>2. Data Resource</h1><p>In fact I haven’t found the appropriate database from online data service, I have tried a lot of online database and download csv or cxt files. But they can not be imported or opened by either Galicia or Lattice Miner, so I generate the random data by Galicia:</p>
+<p><img src="https://lh5.googleusercontent.com/EY0U0rA7laCpzK38dukiMZ6M5w0MgjXZFrV4adAq9W4Yv7Zv1k4s92bTQFYXl01i4J6zR3IAHn7Rj8ekOdECeK_bmzCzeT6jAsErnncgyzd-GAUmiriUeWp4" alt="fig"></p>
+<p><strong>Figure 1: Generate Random Database By Galicia</strong></p>
+<p>Input  the number of objects and attributes, then a new binary table is generated:</p>
+<p><img src="https://lh6.googleusercontent.com/Zeg-i-373lHnNIuMiHUcunR9PGtzY7k_sa5lD0LU9BzC2Zg97oY5YnQcs9DogKC9GApos2BKs1dIu1axI0C1RUmwRjBwq1zHFKSKr8scoYv1enXSwXMlwo1m" alt="fig"></p>
+<p><strong>Figure 2: Random Table in Galicia</strong></p>
+<h1 id="3-Comparison"><a href="#3-Comparison" class="headerlink" title="3. Comparison"></a>3. Comparison</h1><h2 id="3-1-Galicia"><a href="#3-1-Galicia" class="headerlink" title="3.1 Galicia"></a>3.1 Galicia</h2><h3 id="3-1-1-Create-or-import-data"><a href="#3-1-1-Create-or-import-data" class="headerlink" title="3.1.1 Create or import data"></a>3.1.1 Create or import data</h3><p>Just as has mentioned above, we can create a new random table in galicia.</p>
+<h3 id="3-1-2-Construct-the-lattice"><a href="#3-1-2-Construct-the-lattice" class="headerlink" title="3.1.2 Construct the lattice"></a>3.1.2 Construct the lattice</h3><p>Algorithms-&gt;Construct the lattice:</p>
+<p><img src="https://lh5.googleusercontent.com/R0Pub6EKcUwmwn_e9xeGCcbHlYHmdysbxSwzrJORtpCmlS7Odo_0pSZMcV5KtR86y3euoVheFwMid0fzkZ1lPmMHqbKeA77XWrOGh9hzhgc07e6PXog47YKm" alt="fig"></p>
+<p><strong>Figure 3: Lattice Diagram Genereated by Galicia</strong></p>
+<p>There are some options to choose, for example, 3D display, which helps to better display the architecture.</p>
+<h3 id="3-1-3-Export-Data"><a href="#3-1-3-Export-Data" class="headerlink" title="3.1.3 Export Data"></a>3.1.3 Export Data</h3><p>File-&gt;Export:</p>
+<p><img src="https://lh6.googleusercontent.com/o8F_L2uMjWeLck-Ma6ttrNcbLDUCxX07BL2Rr5BQnsITveEFtkLnBlii77hAcKihCU__otLPuj3R1micKqWIdYiHru2pLEnZ_KucVZU8Dvxbi8LbEVmX3WCaqQ" alt="fig"></p>
+<p>Figure 4: Exporte Options Dialog</p>
+<p>Remember to choose Binary Relation of the export type, because this type can be accepted by other software.</p>
+<h3 id="3-1-4-Calculation-time"><a href="#3-1-4-Calculation-time" class="headerlink" title="3.1.4 Calculation time"></a>3.1.4 Calculation time</h3><p>For example, if the number of Objects is 1000 and the number attributes is 20, if fill rate is 30%, the number of concepts(nodes) and calculation time is:</p>
+<p><img src="https://lh3.googleusercontent.com/NLWdudiSLIPRF-gHOu7dVLIUt8x0QwyEG144JZuEKyxk-Xd33NYpFAr8EYF3E0_EqveAQ2mreelH1PAzouOj81lhZXVs6BVwaX0Xw_vswpI7YbVeLFWVCaW_5Q" alt="fig"></p>
+<p><strong>Figure 5: Execution Log of Galicia (Running time)</strong></p>
+<p>So the entire calculation time is 3s. Here is the other calculation data:</p>
+<p><img src="http://media-cache-ak0.pinimg.com/736x/ff/36/04/ff36049cb81aef24362a6daab75414c2.jpg" alt=""></p>
+<p><strong>Table 1: Running Table of Galicia</strong></p>
+<p>The last example makes my computer restart.</p>
+<p>I have noted the last line of command, which indicated that the number of concepts is more than 72k and time is more than 2m23s. Maybe it is because my pc is not powerful enough.</p>
+<h2 id="3-2-Lattice-Miner"><a href="#3-2-Lattice-Miner" class="headerlink" title="3.2 Lattice Miner"></a>3.2 Lattice Miner</h2><h3 id="3-2-1-Create-or-import-data"><a href="#3-2-1-Create-or-import-data" class="headerlink" title="3.2.1 Create or import data"></a>3.2.1 Create or import data</h3><p>As we have generated the data by Galicia, we need to import the data file: data0.bin.xml.</p>
+<p><img src="https://lh6.googleusercontent.com/X6Bup5tjCKCoQodOpbDwdvxD86ZzxSA_q0ZMOajvMdpQMQkhd4JyLJN9zxmJWFoc9T-QZ_oLIdRZ_CP0UjyFHfoB6EH7qQ8XC7hTOXv1dDfJ2IHqujlgdgf9vA" alt="fig"></p>
+<p><strong>Figure 6: Import Random Database in Lattice Miner</strong></p>
+<p>Open this file, the table will display.</p>
+<p><img src="https://lh5.googleusercontent.com/DeU09rkxaErpnpDY6U_OBhz7kXd8frzCvj9H06mYVI6NQbbrTUeYkPTAjhtis1YdCz2plunalzlFbvTAkUR40-Mk2ugHCxsu8isihbLtDmjorgYD5qho4wntYA" alt="fig"></p>
+<p><strong>Figure 7: Random Table in Lattice Miner</strong></p>
+<p>You can see it is exactly the same table as in Galicia (Please refer to 2. Data Resource)</p>
+<h3 id="3-2-2-Construct-the-lattice"><a href="#3-2-2-Construct-the-lattice" class="headerlink" title="3.2.2 Construct the lattice"></a>3.2.2 Construct the lattice</h3><p>Lattice -&gt; Show Lattice:</p>
+<p><img src="https://lh3.googleusercontent.com/rpvpnmhZNKoPVUOh_QnIVm9yEtVpG5RI5T4WSKsFa71Sdq5rhpP3pqECDhQyNPNZmaPg8xULtaLxrdDkpYoXMdbnuDYCt_endr6qfpQbXm1S0OyD811QJC2-iA" alt="fig"></p>
+<p><strong>Figure 8: Lattice Diagram in Lattice Miner</strong></p>
+<p>Apparently, there are many features for Lattice Miner:</p>
+<ul>
+<li>For each concept (each point in the picture), Lattice Miner labels its objects and attributes. For example, the second concept from right in the second line, its attribute is att_2, and it has two objects, obj_0 and obj_8. Of course, we can hide all labels, Edit -&gt; Labels -&gt; Hide all labels.</li>
+<li>Different colors for concepts. As we can see from the picture above, the colors of concepts vary according to the number of its objects. For example, the concept at top, it has nine objects, and it is darker than the concept at bottom, which has no objects.</li>
+<li>If a concept is clicked, the diagram will change. All its parent concept and child concept will be zoomed in and other concepts will fade. Like this:</li>
+</ul>
+<p><img src="https://lh5.googleusercontent.com/0RKT7XhUhJhmeQWC7qsDhZYlsn-C2kR4kXrjhV9FxodPvYqbL4rs5NlvHjCzFnoKmM4wexP4dbuLHbO87Rnbu6mV1N1fDY5WRMQ3hIDsKIXTvtoEbXU3KMyETQ" alt="fig"></p>
+<p><strong>Figure 9.1: Lattice Diagram1 with different concept chosen</strong></p>
+<p><img src="https://lh3.googleusercontent.com/2i8E6vVG4xA3LZUFdJrj4j38r--_oLNWgYhkJg-Y8rJpHb2xhaifcEI99qubj_LltQslvaok9xEgNLZaiju0AjKxkA9klFokL9psUlEI8K9Plehze83_6S-zIg" alt="fig"></p>
+<p><strong>Figure 9.2: Lattice Diagram2 with different concept chosen</strong></p>
+<h3 id="3-2-3-Export-data"><a href="#3-2-3-Export-data" class="headerlink" title="3.2.3 Export data"></a>3.2.3 Export data</h3><p>File -&gt; Save as.</p>
+<p><img src="https://lh6.googleusercontent.com/vyPLIAkyfhm7_Vmdd6lVDL2hHCgVw7DnpwNmLe8H6tN7reSqMboHbx_lQYBz-cOUUM1D7Eeqjy8GZObCyeu6eh-BEv2V3-vxJVJaEYxgPa3Y1nMOC-oaISse" alt="fig"></p>
+<p><strong>Figure 10: Export Options in Lattice Miner</strong></p>
+<p>There are four types for export, .slf, .bin.xml, .cex et .lmb.</p>
+<h3 id="3-2-4-Calculation-time"><a href="#3-2-4-Calculation-time" class="headerlink" title="3.2.4 Calculation time"></a>3.2.4 Calculation time</h3><p>I tried to use data0.bin.xml~data1.bin.xml, which were used as test data for Galicia. But unexpectedly, Lattice Miner can not calculate many concepts.</p>
+<p>For example, when there are 1000 objects, 10 attributes and 20% as fill rate, Lattice Miner give out a warning like this:</p>
+<p><img src="https://lh4.googleusercontent.com/vUl9hSAAZWppJz1Q-EBnx-HIbEJnMyOOOJKvUl0ryPHm7wBAuvLuJ7cquS2FvfRVv15Mksose_ANQEXTC2GDeBgJGNA2DMzrWBSBo9vtzJ-ctroWJXaE8ZMm" alt="fig"></p>
+<p>Figure 11: Running warning in Lattice Miner</p>
+<p>So here is the calculation time table:</p>
+<p><img src="http://media-cache-ak0.pinimg.com/736x/d7/20/c5/d720c5489ccb803e7cd38f5222cedbe2.jpg" alt="fig"></p>
+<p><strong>Table 2: Lattice Miner Running time table</strong></p>
+<p>The last two example makes Lattice Miner unresponded.</p>
+<h2 id="3-3-Open-FCA"><a href="#3-3-Open-FCA" class="headerlink" title="3.3 Open FCA"></a>3.3 Open FCA</h2><p>OpenFCA Project comprises a set of tools for performing FCA (Formal Concept Analysis) activities, such as context creation, lattice visualization and attribute exploration.</p>
+<h3 id="3-3-1-Create-or-import-data"><a href="#3-3-1-Create-or-import-data" class="headerlink" title="3.3.1 Create or import data"></a>3.3.1 Create or import data</h3><p>Different from other tools, OpenFCA is a web based platform, it use .con file to save database and don’t accept other formats of files. So in order to create big data, I analyze the basic structure of .con file, and then generate .con file by sript language, such as Python.</p>
+<p>For example, a simple .con file and the core python code could be like this,</p>
+<p><img src="https://lh6.googleusercontent.com/WoYPivHLDCaaNQpvCrEVKSEqo9nUxswK9a8rCpmaEht7z4lNIN-bAcwLOyyZn5nlhOTImlmMc9gqv04o4-uNT0maI_Y3ta3k3Jj4RSndjpm10ojI8RkzM5Rb" alt="fig"></p>
+<p><img src="https://lh5.googleusercontent.com/adOOE0wksQrJbLa1tGcET9pmQdpNISkXnBybUmEdz8HvAzxwGW21kryTCyzJdAmkMhHxQzap2L_1TmdCTWK8YXjTuYnBo21Wqz3ZntJHzi2qTLriW6FHpaVN" alt="fig"></p>
+<p><strong>Figure 12: Raw Data Structure and Python Code</strong></p>
+<p>In the python script, I have generated 10*10 table, and fill the table with ‘1’ by the chance of 70%.</p>
+<h3 id="3-3-2-Construct-the-lattice"><a href="#3-3-2-Construct-the-lattice" class="headerlink" title="3.3.2 Construct the lattice"></a>3.3.2 Construct the lattice</h3><p>After the data is imported, we can see a table like this,</p>
+<p><img src="https://lh4.googleusercontent.com/7xNPa_sJpaGdjSJWCkcf0quZIUArmJm5CP0a70PImsXUl7HoqGSitmkdQ9bby3dXPWMhcP0sCPlba2c_WEG0TYEQK0A0pmidkmvrhJ9OqLEkzOfzhwNQqv2e" alt="fig"></p>
+<p><strong>Figure 13: Lattice Table in OpenFCA</strong></p>
+<p>Click the button View Lattice, the diagram will show up.</p>
+<p><img src="https://lh4.googleusercontent.com/DCmBDEyZ6A80S1MVmXvyPRP3-4TLiBZsPAaPkcTPkVJtsJQVp0-lzOEsgLap5jKijr3xHrih5_v4VLbjYVDut1MZEU7odTiNFLb4EbvOsZ-6rvAtP5sxhjXw" alt="fig"></p>
+<p><strong>Figure 14: Lattice Diagram in OpenFCA</strong></p>
+<p>Different from previous two Java program, this Flex tool is more beautiful and well designed. However, it doesn’t support many operations. Here are the main features.</p>
+<p>When we move the mouse and hover it over each concept, all the objects and attributes will display in left. It is more useful and more clear than Galicia and Lattice Miner.</p>
+<p>In the left side of page, there are some control bar, for example, Visible concepts limit, Item width, font size, etc.</p>
+<p>At the top of this page, there are five buttons, open, save, reset, etc.</p>
+<h3 id="3-3-3-Export-data"><a href="#3-3-3-Export-data" class="headerlink" title="3.3.3 Export data"></a>3.3.3 Export data</h3><p>As OpenFCA only support .con file as database, there are no many choices for us.</p>
+<p><img src="https://lh6.googleusercontent.com/dTPrgLPOGjfdH9V5ltfvQTi_AutZRxKL_rw9UKP037Oshe9K3QPdtXtfm8D7cHBKkgnu2i5WWfNWg2QA0ZMRZPOK4H939IaE4zMKelyJK8gHCSgwdCNLpYvH" alt="fig"></p>
+<p><strong>Figure 13: Lattice Export Dialog in OpenFCA</strong></p>
+<p>Just as illustrated above, .con file is the best choice. .png and .jpg are just for presenting, they can not store data.</p>
+<h3 id="3-3-4-Calculation-time"><a href="#3-3-4-Calculation-time" class="headerlink" title="3.3.4 Calculation time"></a>3.3.4 Calculation time</h3><p>Unluckily, OpenFCA only supports 170 concepts at maximum. So we can not execute big data test. Generally, 10_10_50% table takes one minutes. Perhaps, this limit is for speeding the respond time and improve user experience.</p>
+<h1 id="4-Conclusion"><a href="#4-Conclusion" class="headerlink" title="4. Conclusion"></a>4. Conclusion</h1><p>To sum up, in this report three tools are used and tested. Generally, we can conclude some key points as below:</p>
+<ul>
+<li><p>Functionality. By considering the support operations, file analyze and type support, calculation time, Galicia &gt; Lattice Miner » OpenFCA.</p>
+</li>
+<li><p>Graphical user interface. There is no doubt that Flex+CSS is more powerful than Java UI opponents, OpenFCA &gt; Lattice Miner &gt; Galicia.</p>
+</li>
+</ul>
+</div></article></div></section><footer><div class="paginator"><a href="/2013/10/02/Randonnee-au-Vosges/" class="prev">PRVE</a><a href="/2013/09/23/Android版散文随笔合集/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2013/10/01/FCA-Tools-Comparison/';
+var disqus_title = 'FCA Tools Comparison';
+var disqus_url = 'http://yoursite.com/2013/10/01/FCA-Tools-Comparison/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

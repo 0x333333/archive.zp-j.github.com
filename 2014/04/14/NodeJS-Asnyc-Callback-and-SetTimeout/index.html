@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> NodeJS Asnyc, Callback and SetTimeout · Zhipeng Jiang</title><meta name="description" content="NodeJS Asnyc, Callback and SetTimeout - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">NodeJS Asnyc, Callback and SetTimeout</h1><div class="post-time">Apr 14, 2014</div><div class="post-content"><h3 id="Async-waterfall-flow"><a href="#Async-waterfall-flow" class="headerlink" title="Async waterfall flow"></a>Async waterfall flow</h3><pre class="prettyprint linenums">
+var async = require('async');
+
+// Async waterfall flow
+async.waterfall([
+  function(callback){
+    callback(null, 'one', 'two');
+  },
+  function(arg1, arg2, callback){
+    // arg1 now equals 'one' and arg2 now equals 'two'
+    console.log(arg1);
+    console.log(arg2);
+    callback(null, 'three');
+  },
+  function(arg1, callback){
+    // arg1 now equals 'three'
+    console.log(arg1);
+    callback(null, 'done');
+  }
+], function (err, result) {
+  console.log(result); 
+});
+</pre>
+
+<p>Result</p>
+<pre><code>one
+two
+three
+done
+`&lt;/pre&gt;
+
+### Function setTimeout
+
+&lt;pre class=&quot;prettyprint linenums&quot;&gt;
+// setTimeout illustration.
+function calculateFibonacci(number) {
+  if (number === 0 || number === 1) 
+    return number;
+  return (calculateFibonacci(number - 1) + calculateFibonacci(number - 2));
+}
+
+function doSomthing(number, successCB, errorCB) {
+  setTimeout(function() {
+    try {
+      var result = [];
+      for (var i = 0; i &amp;lt; number; i++) {
+        var res = calculateFibonacci(i);
+        // console.log(res);
+        result.push(res);
+      }
+      console.log(&apos;for finished&apos;);
+
+      if (typeof successCB === &apos;function&apos;) {
+        successCB(result.join(&apos;, &apos;));
+      }
+    } catch (ex) {
+      if (typeof errorCB === &apos;function&apos;) {
+        errorCB(ex.message);
+      }
+    }
+  }, 100);
+}
+
+console.log(&apos;Initialization&apos;);
+
+doSomthing(30, function(result) {
+  console.log(&apos;The result is: &apos;, result);
+}, function(err) {
+  console.log(err);
+});
+&lt;/pre&gt;
+
+Result
+
+&lt;pre&gt;`Initialization
+for finished
+The result is:  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229
+`&lt;/pre&gt;
+
+### Function callback
+
+&lt;pre class=&quot;prettyprint linenums&quot;&gt;
+// Function injection
+function do_a( callback ){
+  setTimeout( function(){
+    // simulate a time consuming function
+    console.log( &apos;`do_a`: this takes longer than `do_b`&apos; );
+    // if callback exist execute it
+    if(callback) callback();
+  }, 3000 );
+}
+
+function do_b(){
+  console.log( &apos;`do_b`: now we can make sure `do_b` comes out after `do_a`&apos; );
+}
+
+do_a( function(){
+  do_b();
+});
+&lt;/pre&gt;
+
+Result
+
+&lt;pre&gt;``do_a`: this takes longer than `do_b`
+`do_b`: now we can make sure `do_b` comes out after `do_a`
+</code></pre></div></article></div></section><footer><div class="paginator"><a href="/2014/04/15/Read-file-line-by-line-with-Node-js/" class="prev">PRVE</a><a href="/2014/04/03/好文章收藏/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2014/04/14/NodeJS-Asnyc-Callback-and-SetTimeout/';
+var disqus_title = 'NodeJS Asnyc, Callback and SetTimeout';
+var disqus_url = 'http://yoursite.com/2014/04/14/NodeJS-Asnyc-Callback-and-SetTimeout/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

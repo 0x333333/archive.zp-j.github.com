@@ -1,0 +1,36 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> RGB to Hex and Hex to RGB · Zhipeng Jiang</title><meta name="description" content="RGB to Hex and Hex to RGB - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">RGB to Hex and Hex to RGB</h1><div class="post-time">May 10, 2014</div><div class="post-content"><p>Wahoo, it has been nearly a month since my last post. LOL.</p>
+<p>Recently, I started another <a href="http://ionicframework.com/" target="_blank" rel="external">ionic</a> project <a href="https://github.com/zp-j/ionic-color" target="_blank" rel="external">ionic-color</a>. Alright, I have to admit that it’s another Android project that I didn’t finish last year.</p>
+<p>Ok, in today’s post, I’m gonna present some color-related tricks. The first one converts color with RGB format to the one in HEX, like <code>(0, 0, 0)</code> to <code>#000000</code>.</p>
+<pre><code>function rgbToHex(r, g, b) {
+    return &quot;#&quot; + ((1 &amp;lt;&amp;lt; 24) + (r &amp;lt;&amp;lt; 16) + (g &amp;lt;&amp;lt; 8) + b).toString(16).slice(1);
+}
+`&lt;/pre&gt;
+
+Of couse the second one converts HEX to RGB, likt `#000000` or `#000` to `(0, 0, 0)`.
+
+&lt;pre&gt;`function hexToRgb(hex) {
+    // Expand shorthand form (e.g. &quot;03F&quot;) to full form (e.g. &quot;0033FF&quot;)
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+</code></pre><p>OK, I’m gonna explain this later today.</p>
+<hr>
+<p>I just saw poppy’s new website, nice try! At least she made it, much better than those who talk much but do nothing. Good luck!</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2014/05/14/Execute-commands-periodically-with-Cron/" class="prev">PRVE</a><a href="/2014/04/15/Read-file-line-by-line-with-Node-js/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2014/05/10/RGB-to-Hex-and-Hex-to-RGB/';
+var disqus_title = 'RGB to Hex and Hex to RGB';
+var disqus_url = 'http://yoursite.com/2014/05/10/RGB-to-Hex-and-Hex-to-RGB/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

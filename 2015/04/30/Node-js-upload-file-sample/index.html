@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Node.js upload file sample · Zhipeng Jiang</title><meta name="description" content="Node.js upload file sample - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Node.js upload file sample</h1><div class="post-time">Apr 30, 2015</div><div class="post-content"><p>It’s been quite a while I didn’t post anything in this blog, I was kept busy everyday even though I don’t know why.</p>
+<p>Few days ago I’m required to implement a simple file upload interface, in order test the API I developed a mock node.js server which will take the uploaded file. The mock is built with express.js.</p>
+<p>Don’t forget to install two package:</p>
+<p><code>npm install --save formidable
+npm install --save fs-extra</code></p>
+<p>Now the project source tree is like this:</p>
+<p><img src="http://7sbqda.com1.z0.glb.clouddn.com/Screen%20Shot%202015-05-01%20at%2010.39.33%20AM.png" alt=""></p>
+<p>Here’s the code, ##index.js##</p>
+<pre class="prettyprint linenums">
+var express = require('express');
+var router = express.Router();
+var formidable = require('formidable');
+var fs =require('fs-extra');    //File System-needed for renaming file etc
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+
+router.post('/upload', function(req, res, next0) {
+  var form = new formidable.IncomingForm();
+  //Formidable uploads to operating systems tmp dir by default
+  form.uploadDir = "img";       //set upload directory
+  form.keepExtensions = true;     //keep file extension
+
+  form.parse(req, function(err, fields, files) {
+    res.writeHead(200, {'content-type': 'text/plain'});
+    res.write('received upload:\n\n');
+    console.log("form.bytesReceived");
+    //TESTING
+    console.log("file size: "+JSON.stringify(files.fileUploaded.size));
+    console.log("file path: "+JSON.stringify(files.fileUploaded.path));
+    console.log("file name: "+JSON.stringify(files.fileUploaded.name));
+    console.log("file type: "+JSON.stringify(files.fileUploaded.type));
+    console.log("astModifiedDate: "+JSON.stringify(files.fileUploaded.lastModifiedDate));
+
+    //Formidable changes the name of the uploaded file
+    //Rename the file to its original name
+    fs.rename(files.fileUploaded.path, './img/'+files.fileUploaded.name, function(err) {
+      if (err)
+        throw err;
+      console.log('renamed complete');
+    });
+    res.end();
+  });
+});
+
+module.exports = router;
+</pre>
+
+<p>And we need a page ##index.jade## to test the server:</p>
+<pre class="prettyprint linenums">
+form(method="post", action="upload", enctype="multipart/form-data")
+  input(type="file", name="fileUploaded")
+  input(type="submit")
+</pre></div></article></div></section><footer><div class="paginator"><a href="/2015/05/05/Built-in-Package-Capture-inside-Chrome/" class="prev">PRVE</a><a href="/2015/01/13/胡言乱语之2015年/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2015/04/30/Node-js-upload-file-sample/';
+var disqus_title = 'Node.js upload file sample';
+var disqus_url = 'http://yoursite.com/2015/04/30/Node-js-upload-file-sample/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

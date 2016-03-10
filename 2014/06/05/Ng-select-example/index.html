@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Ng-select example · Zhipeng Jiang</title><meta name="description" content="Ng-select example - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Ng-select example</h1><div class="post-time">Jun 5, 2014</div><div class="post-content"><p>In mobile UI, it’s not a good idea to use drop-down to choose item. For example, in the picture below, I can’t deny that it’s beautifully designed, however, in the same time, it could be difficult for users to pull back drop-down list. Click other parts of the small screen? No way, that will result in mistakes of clicking. By the way, if the drop-down list is too long, it’s almost impossible for user to scroll this small list.</p>
+<p><img src="http://media-cache-ec0.pinimg.com/originals/d6/72/ad/d672ad7cf5b30fd7d8563ccc9374f163.jpg" alt="pic"></p>
+<p>In the latest Ionicframework, <code>select</code> element is supported.</p>
+<blockquote>
+<p>Ionic’s select is styled so its appearance is prettied up relative to the browser’s default style. However, when the select elements is opened, the default behavior on how to select one of the options is still managed by the browser.</p>
+<p>Each platform’s user-interface will be different as the user is selecting an option. For example, on a desktop browser you’ll see the traditional drop down interface, whereas Android often has a radio-button list popup, and iOS has a custom scroller covering the bottom half of the window.</p>
+</blockquote>
+<p>For example, in ios emulator, selector functions like this:</p>
+<p><img src="http://media-cache-ec0.pinimg.com/originals/3a/db/8b/3adb8b41a100668d955e1f7857c19193.jpg" alt="pic"></p>
+<p>Thay have also provide a piece of example CSS:</p>
+<pre><code>&amp;lt;div class=&quot;list&quot;&amp;gt;
+
+  &amp;lt;label class=&quot;item item-input item-select&quot;&amp;gt;
+    &amp;lt;div class=&quot;input-label&quot;&amp;gt;
+      Lightsaber
+    &amp;lt;/div&amp;gt;
+    &amp;lt;select&amp;gt;
+      &amp;lt;option&amp;gt;Blue&amp;lt;/option&amp;gt;
+      &amp;lt;option selected&amp;gt;Green&amp;lt;/option&amp;gt;
+      &amp;lt;option&amp;gt;Red&amp;lt;/option&amp;gt;
+    &amp;lt;/select&amp;gt;
+  &amp;lt;/label&amp;gt;
+
+&amp;lt;/div&amp;gt;
+`&lt;/pre&gt;
+
+So… how to add listener to `select`??? The answer should be `ng-select`. I’m gonna explain how to use `ng-select` with a simple example.
+
+We have a collection of color:
+
+&lt;pre&gt;`$scope.colors = [
+  {name:&apos;black&apos;, shade:&apos;dark&apos;},
+  {name:&apos;white&apos;, shade:&apos;light&apos;},
+  {name:&apos;red&apos;, shade:&apos;dark&apos;},
+  {name:&apos;blue&apos;, shade:&apos;dark&apos;},
+  {name:&apos;yellow&apos;, shade:&apos;light&apos;}
+];
+`&lt;/pre&gt;
+
+The HTML code:
+
+&lt;pre&gt;`&amp;lt;div ng-controller=&quot;MyCntrl&quot;&amp;gt;
+  Color (null not allowed):
+  &amp;lt;select ng-model=&quot;myColor&quot; ng-options=&quot;color.name for color in colors&quot;&amp;gt;
+  &amp;lt;/select&amp;gt;
+
+  &amp;lt;br&amp;gt;
+
+  Color (null allowed):
+
+  &amp;lt;select ng-model=&quot;myColor&quot; ng-options=&quot;color.name for color in colors&quot; ng-change=&quot;dosth()&quot;&amp;gt;
+    &amp;lt;option value=&quot;&quot;&amp;gt;-- choose color --&amp;lt;/option&amp;gt;
+  &amp;lt;/select&amp;gt;
+
+  &amp;lt;hr/&amp;gt;
+
+  Color chosen:
+  &amp;lt;div style=&quot;border:solid 1px black; width:50px; height:50px&quot;
+       ng-style=&quot;{&apos;background-color&apos;:myColor.name}&quot;&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+`&lt;/pre&gt;
+
+In this code, there are two selectors, within one null is not allowed, another yes. Each time the value of select changed, it will call `dosth()` in MyCntrl.
+
+&lt;pre&gt;`$scope.dosth = function() {
+  console.log(&apos;sth&apos;);
+};
+</code></pre><p>So that’s it. Kid’s stuff. Here’s the source code: <a href="http://plnkr.co/edit/fCT4M1lPCjF7fPTmzGE3?p=preview" target="_blank" rel="external">Edit</a>. Have fun!</p>
+</div></article></div></section><footer><div class="paginator"><a href="/2014/06/06/胡言乱语2/" class="prev">PRVE</a><a href="/2014/05/27/Call-Function-with-Delay-after-Changes-in-AngularJS/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2014/06/05/Ng-select-example/';
+var disqus_title = 'Ng-select example';
+var disqus_url = 'http://yoursite.com/2014/06/05/Ng-select-example/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

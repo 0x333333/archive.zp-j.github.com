@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Symfony2 (4) - atoum进行单元测试 · Zhipeng Jiang</title><meta name="description" content="Symfony2 (4) - atoum进行单元测试 - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Symfony2 (4) - atoum进行单元测试</h1><div class="post-time">Aug 21, 2013</div><div class="post-content"><h1 id="测试示例"><a href="#测试示例" class="headerlink" title="测试示例"></a>测试示例</h1><p>先上一段代码，然后再讲讲具体代码做了什么。</p>
+<pre class="prettyprint linenums">
+&lt;?php
+
+use atoum\AtoumBundle\Test\Controller;
+
+/******************************************
+ * ATOUM TESTS
+ * To run them :
+ * cd /path/to/the/project/
+ * php app/console atoum BundleName
+ *****************************************/
+
+class FolderController extends Controller\ControllerTest
+{
+
+    private $userName = "unknown";
+
+    public function setUp() 
+    {
+        // delete all the data stored in Mongo for this test
+    }
+
+    public function beforeTestMethod($testMethod)
+    {
+        // do something before each test method
+    }
+
+    public function testFolderCanBeCreated()
+    {
+        $client = $this-&gt;createClient();
+        $client-&gt;request('POST', '/folders', array('title' =&gt; $title, 'abstract' =&gt; $abstract, 'idp' =&gt; ''));
+        $response = $client-&gt;getResponse();
+
+        $this-&gt;integer($response-&gt;getStatusCode())
+             -&gt;isEqualTo(200)
+             -&gt;string($response-&gt;headers-&gt;get('Content-Type'))
+             -&gt;isEqualTo('application/json');
+
+        $json = json_decode($response-&gt;getContent(), true)[0];
+        // var_dump($json);
+        $this-&gt;string($json['title'])-&gt;isEqualTo($title);
+        $this-&gt;string($json['abstract'])-&gt;isEqualTo($abstract);
+        $this-&gt;string($json['owner'])-&gt;isEqualTo($this-&gt;userName);
+    }
+</pre>
+
+<ul>
+<li><p><code>use</code>和<code>namespace</code>这两个部分根据实际情况自己决定，注意，<code>use atoum\AtoumBundle\Test\Controller;</code>是一定要添加的。</p>
+</li>
+<li><p><code>extends Controller\ControllerTest</code>不要忘记添加，这里包含了所有的断言语句的实现。</p>
+</li>
+<li><p>跟一般的测试工具类似，这里也包括了<code>setUp()</code>函数和<code>tearDown()</code>函数，注意，这两个函数不是必须的。在atoum里，还有一个是<code>beforeTestMethod()</code>和<code>afterTestMethod()</code>函数，同样，这两个函数也不是必须的，但他们的功能与之前两个不同。一般的测试流程如下：</p>
+<pre><code>setUp()
+</code></pre><p>  beforeTestMethod()<br>  testXXXXXXXX()<br>  afterTestMethod()<br>  beforeTestMethod()<br>  testYYYYYYYY()<br>  afterTestMethod()<br>  …<br>  tearDown()</p>
+</li>
+<li><p>在具体的测试函数里，首先需要create一个client出来，用来给api发送request，一般的request分成四种，分别是<code>GET</code>, <code>POST</code>, <code>PUT</code>和<code>DELETE</code>，分别对应了查增改删。</p>
+</li>
+<li><p>在request函数中，第二个参数是api的route，第三个参数是api需要传入的参数，用array传进去。</p>
+</li>
+<li><p>atoum的断言语句比较多，这里通常用到的有以下几个：</p>
+</li>
+</ul>
+<pre class="prettyprint linenums">
+// 判断整数值知否相等，大于，大于等于，...
+$this-&gt;integer($a)-&gt;isEqualTo($b);
+$this-&gt;integer($a)-&gt;isGreaterThan($b);
+
+// 判断字符串是否相等
+$this-&gt;string($a)-&gt;isEqualTo($b);
+
+// 判断布尔值
+$this-&gt;boolean($a)-&gt;isTrue();
+$this-&gt;boolean($a)-&gt;isFalse();
+</pre></div></article></div></section><footer><div class="paginator"><a href="/2013/08/22/Python-Note-6-简单的单线程爬虫实现/" class="prev">PRVE</a><a href="/2013/08/19/Symfony2-3-atoum进行单元测试/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2013/08/21/Symfony2-4-atoum进行单元测试/';
+var disqus_title = 'Symfony2 (4) - atoum进行单元测试';
+var disqus_url = 'http://yoursite.com/2013/08/21/Symfony2-4-atoum进行单元测试/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

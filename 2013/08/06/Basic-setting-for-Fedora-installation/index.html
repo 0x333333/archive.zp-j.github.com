@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Basic setting for Fedora installation · Zhipeng Jiang</title><meta name="description" content="Basic setting for Fedora installation - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Basic setting for Fedora installation</h1><div class="post-time">Aug 6, 2013</div><div class="post-content"><h2 id="Close-AMD-Graphics-Card"><a href="#Close-AMD-Graphics-Card" class="headerlink" title="Close AMD Graphics Card"></a>Close AMD Graphics Card</h2><p>Firstly check your status</p>
+<pre><code>cat /sys/kernel/debug/vgaswitcheroo/switch
+`&lt;/pre&gt;
+
+Maybe luck enough, you can see the information below
+
+&lt;pre&gt;`0:IGD:+:Pwr:0000:00:02.0
+1:DIS: :Off:0000:01:00.0
+`&lt;/pre&gt;
+
+IGD is Integrated Graphics Device, and DIS is AMD graphics card. We should disable it by typing:
+
+&lt;pre&gt;`echo IGD &amp;gt; /sys/kernel/debug/vgaswitcheroo/switch
+echo OFF &amp;gt; /sys/kernel/debug/vgaswitcheroo/switch
+`&lt;/pre&gt;
+
+These two commands indicate the working card and disable another one. It can be checked by typing the first command. In order to disable AMD card forever, you need to modify _/etc/rc.d/rc.local_
+
+&lt;pre&gt;`echo OFF &amp;gt; /sys/kernel/debug/vgaswitcheroo/switch
+`&lt;/pre&gt;
+
+At last, change the file rights to be executable
+
+&lt;pre&gt;`sudo chmod +x rc.local
+`&lt;/pre&gt;
+
+## Add Ctrl+Alt+T
+
+In short cut menu, add a new shortcut by setting _gnome-terminel_ with Ctrl+Alt+T.
+
+## Disable selinux
+
+Open `/etc/sysconfig/selinux` and modify the command below:
+
+&lt;pre&gt;`SELINUX=disabled
+`&lt;/pre&gt;
+
+## Installation
+
+### Basic tools
+
+&lt;pre&gt;`sudo su
+yum install vim
+yum install git
+yum install gnome-tweak-tool
+...
+`&lt;/pre&gt;
+
+### Chinese Input Method 安装中文输入法
+
+在fedora 19里安装中文输入法非常简单快捷，这里要感谢大神 Wu Peng 以及各位开发者。安装的命令如下，
+
+&lt;pre&gt;`sudo yum install ibus ibus-pinyin
+`&lt;/pre&gt;
+
+安装完成之后，在application里搜input就可以看到Region and Language，在里面添加中文输入法以及唤醒快捷键即可。附加一句，这个版本的ibus做得很赞，个人觉得不必fxitc差。
+
+### Sublime text
+
+Download the latest version of Sublime text, unzip it and new a desktop shortcuts.
+
+&lt;pre&gt;`[Desktop Entry]
+Name=Sublime
+Comment=Sublime Text 2
+Exec=/home/zhipeng/Develop/tools/Sublime_Text_2/sublime_text
+Icon=/home/zhipeng/Develop/tools/Sublime_Text_2/Icon/48x48/sublime_text.png
+Terminal=false
+Type=Application
+Categories=Application
+StartupNotify=true
+`&lt;/pre&gt;
+
+Then add this desktop shortcuts to _/usr/share/application_
+
+### VLC/Skype
+
+It needs to download the rpm from official website.
+
+### KVM virtual machine
+
+It is good idea to run windows inside Fedora!
+
+You can choose KVM, it is easy enough by comparing with VirtualBox.
+
+&lt;pre&gt;`sudo yum -yinstall qemu-kvm libvirt virt-manager
+sudo modprobe kvm-intel #ensure that you are using intel CPU
+`&lt;/pre&gt;
+
+## Appearence
+
+### Font
+
+There are pre-built packages for Fedora users. Run these commands instead of installing these files manually. It is recommended to restart your system after installation. If you have already run these commands before, then your normal system updates will keep your packages up to date.
+
+&lt;pre&gt;`sudo rpm -Uvh http://www.infinality.net/fedora/linux/infinality-repo-1.0-1.noarch.rpm 
+sudo yum install freetype-infinality fontconfig-infinality
+`&lt;/pre&gt;
+
+### Top pannel
+
+A dirty fix for that can be editing the panel section in gnome-shell.css. But after every update to the shell this customization will get lost, so its beter to keep a backup copy of what changes you are making.
+
+Edit the file `/usr/share/gnome-shell/theme/gnome-shell.css`
+
+Find the panel section and modify the code like this:
+
+&lt;pre&gt;`#panel {
+    color: #ffffff;
+    background-color:rgba(0,0,0,0.5);
+    font-weight: bold;
+    height: 1.86em;
+}
+</code></pre><p>Here is my desktop</p>
+<p><img src="http://media-cache-ak0.pinimg.com/736x/81/bb/8d/81bb8dff8d7bc71f905ec09e69119784.jpg" alt="desktop"></p>
+</div></article></div></section><footer><div class="paginator"><a href="/2013/08/06/Android-Develop-Record-07-Image-Zoom-and-Drag/" class="prev">PRVE</a><a href="/2013/08/05/Android-Develop-Record-06-Action-Bar/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2013/08/06/Basic-setting-for-Fedora-installation/';
+var disqus_title = 'Basic setting for Fedora installation';
+var disqus_url = 'http://yoursite.com/2013/08/06/Basic-setting-for-Fedora-installation/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Configuration memo · Zhipeng Jiang</title><meta name="description" content="Configuration memo - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Configuration memo</h1><div class="post-time">Aug 8, 2015</div><div class="post-content"><p>We have two testing servers, here are the detailed informations:</p>
+<table><br>  <thead><br>    <tr><br>      <th> </th><br>      <th>iZ2309vbc18Z</th><br>      <th>iZ23tayrurgZ</th><br>    </tr><br>  </thead><br>  <tbody><br>    <tr><br>      <td><strong>CPU</strong></td><br>      <td>1 core</td><br>      <td>1 core</td><br>    </tr><br>    <tr><br>      <td><strong>Mem</strong></td><br>      <td>1024 MB</td><br>      <td>1024 MB</td><br>    </tr><br>    <tr><br>      <td><strong>OS</strong></td><br>      <td>Ubuntu 14.04 64</td><br>      <td>Ubuntu 14.04 64</td><br>    </tr><br>    <tr><br>      <td><strong>Public IP</strong></td><br>      <td>121.40.83.134</td><br>      <td>121.41.12.184</td><br>    </tr><br>    <tr><br>      <td><strong>Internal IP</strong></td><br>      <td>10.171.221.141</td><br>      <td>10.173.142.47</td><br>    </tr><br>    <tr><br>      <td><strong>Bandwidth</strong></td><br>      <td>1Mbps</td><br>      <td>1Mbps</td><br>    </tr><br>  </tbody><br></table>
+
+<h2 id="Install-Flume"><a href="#Install-Flume" class="headerlink" title="Install Flume"></a>Install Flume</h2><p>More details can be found from <a href="https://flume.apache.org/FlumeUserGuide.html" target="_blank" rel="external">official user guide</a>.</p>
+<p>Data flow model of Flume:</p>
+<p><img src="https://flume.apache.org/_images/UserGuide_image00.png" alt="img"></p>
+<pre><code>wget http://cloud.github.com/downloads/cloudera/flume/flume-distribution-1.6.0-bin.tar.gz
+tar -xzvf flume-distribution-1.6.0-bin.tar.gz
+cp -rf flume-distribution-1.6.0-bin /root/local/flume
+vi /etc/profile
+export FLUME_HOME=/root/local/flume
+export PATH=.:$PATH::$FLUME_HOME/bin
+source /etc/profile
+`&lt;/pre&gt;
+
+Set role
+
+&lt;pre&gt;`# example.conf: A single-node Flume configuration
+
+# Name the components on this agent
+a1.sources = r1
+a1.sinks = k1
+a1.channels = c1
+
+# Describe/configure the source
+a1.sources.r1.type = netcat
+a1.sources.r1.bind = localhost
+a1.sources.r1.port = 44444
+
+# Describe the sink
+a1.sinks.k1.type = logger
+
+# Use a channel which buffers events in memory
+a1.channels.c1.type = memory
+a1.channels.c1.capacity = 1000
+a1.channels.c1.transactionCapacity = 100
+
+# Bind the source and sink to the channel
+a1.sources.r1.channels = c1
+a1.sinks.k1.channel = c1
+`&lt;/pre&gt;
+
+Test, in the root directory, run
+
+&lt;pre&gt;`flume-ng agent --conf conf --conf-file ./conf/example.conf --name a1 -Dflume.root.logger=INFO,console
+`&lt;/pre&gt;
+
+In another terminal
+
+&lt;pre&gt;`telnet localhost 44444
+
+Trying 127.0.0.1...
+Connected to localhost.localdomain (127.0.0.1).
+Escape character is &apos;^]&apos;.
+Hello world! &amp;lt;ENTER&amp;gt;
+OK
+`&lt;/pre&gt;
+
+The original Flume terminal will output the event in a log message.
+
+&lt;pre&gt;`12/06/19 15:32:19 INFO source.NetcatSource: Source starting
+12/06/19 15:32:19 INFO source.NetcatSource: Created serverSocket:sun.nio.ch.ServerSocketChannelImpl[/127.0.0.1:44444]
+12/06/19 15:32:34 INFO sink.LoggerSink: Event: { headers:{} body: 48 65 6C 6C 6F 20 77 6F 72 6C 64 21 0D          Hello world!. }
+</code></pre><h2 id="Install-Spark"><a href="#Install-Spark" class="headerlink" title="Install Spark"></a>Install Spark</h2><h3 id="Download-Pre-built-Spark"><a href="#Download-Pre-built-Spark" class="headerlink" title="Download Pre-built Spark"></a>Download Pre-built Spark</h3><h3 id="Install-Java"><a href="#Install-Java" class="headerlink" title="Install Java"></a>Install Java</h3><p>Please refer to the document of DigitalOcean:</p>
+<p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-java-on-ubuntu-with-apt-get" target="_blank" rel="external">How To Install Java on Ubuntu with Apt-Get</a></p>
+<h3 id="Configure-SSH"><a href="#Configure-SSH" class="headerlink" title="Configure SSH"></a>Configure SSH</h3><h3 id="Edit-hosts-file"><a href="#Edit-hosts-file" class="headerlink" title="Edit hosts file"></a>Edit hosts file</h3><h3 id="Start-service"><a href="#Start-service" class="headerlink" title="Start service"></a>Start service</h3></div></article></div></section><footer><div class="paginator"><a href="/2015/08/11/Log-big-data-analytics/" class="prev">PRVE</a><a href="/2015/05/09/Awesome-wolframe-function-CountryData/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2015/08/08/Configuration-memo/';
+var disqus_title = 'Configuration memo';
+var disqus_url = 'http://yoursite.com/2015/08/08/Configuration-memo/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

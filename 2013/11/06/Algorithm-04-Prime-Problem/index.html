@@ -1,0 +1,64 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Algorithm (04) - Prime Problem · Zhipeng Jiang</title><meta name="description" content="Algorithm (04) - Prime Problem - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Algorithm (04) - Prime Problem</h1><div class="post-time">Nov 6, 2013</div><div class="post-content"><p><img src="http://media-cache-ak0.pinimg.com/originals/96/43/73/964373268a30a12c64daa825a3b1dbf4.jpg" alt="pic"></p>
+<p>这道题目其实还是很有意思的，我给出的解法时间效率太糟糕。还求大神解答。</p>
+<p>谢谢方老师在回复中提供的方法，我把题目翻译一下吧：</p>
+<p>存在一个奇怪数，我们把ta叫做“神奇数”。一个“神奇数”等于ta的所有“晦涩数”的和。所谓的“晦涩数”是“神奇数”的约数，满足“神奇数”=A*B，其中A和B互质（这段神奇的法语看了我好久好久）。</p>
+<p>举例，60=3*20，其中3和20互质，所以3和20都是60的”晦涩数“。60的所有晦涩数有：1，3，4，5，12，15，20。加起来正好等于60，所以我们就把60叫做”神奇数“。</p>
+<p>题目，要找到100000以内所有的神奇数。</p>
+<p><strong>My solution</strong></p>
+<pre class="prettyprint linenums">
+
+#include &lt;math.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+// compile with flag '-std=c99'
+
+int isCoprime(int a, int b)
+{
+    if (a &lt; b)
+    {
+        a = a + b;
+        b = a - b;
+        a = a - b;
+    }
+    int c;
+    while((c = a % b) != 0)
+    {
+        a = b;
+        b = c;
+    }
+    return (b == 1);  // si b == 1, a est coprime avec b
+}
+
+int main()
+{
+    for (int N = 1; N &lt; 100000; N ++)
+    {
+        int sum = 1;
+        for (int i = 2; i &lt;= sqrt(N); i ++)
+        {
+            if (N%i == 0)
+            {
+                if (isCoprime(N/i, i))
+                {
+                    sum += (i + N/i);
+                }
+            }
+        }
+        if (sum == N)
+        {
+            printf("%d\n", N);
+        }
+    }
+    return 0;
+}
+
+</pre></div></article></div></section><footer><div class="paginator"><a href="/2013/11/10/NoSQL-3-Partitioning/" class="prev">PRVE</a><a href="/2013/11/03/法国西班牙葡萄牙一周游/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2013/11/06/Algorithm-04-Prime-Problem/';
+var disqus_title = 'Algorithm (04) - Prime Problem';
+var disqus_url = 'http://yoursite.com/2013/11/06/Algorithm-04-Prime-Problem/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

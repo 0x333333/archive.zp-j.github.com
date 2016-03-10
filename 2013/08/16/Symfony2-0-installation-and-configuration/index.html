@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Symfony2 (0) - installation and configuration · Zhipeng Jiang</title><meta name="description" content="Symfony2 (0) - installation and configuration - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Symfony2 (0) - installation and configuration</h1><div class="post-time">Aug 16, 2013</div><div class="post-content"><p>The installation includes Apache, MySql, PhpMyAdmin, Git, and every necessary libraries to work.</p>
+<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><h2 id="Apache-on-Fedora-18"><a href="#Apache-on-Fedora-18" class="headerlink" title="Apache on Fedora 18"></a>Apache on Fedora 18</h2><pre><code>$ sudo yum install httpd
+$ sudo chkconfig httpd on
+$ sudo service httpd start
+`&lt;/pre&gt;
+
+After the last command, you can type `http://localhost` to check the local httpd service. If you see the welcome page of apache, it is done.
+
+## MySQL
+
+&lt;pre&gt;`$ sudo yum install mysql-server mysql
+$ sudo service mysqld start
+$ sudo chkconfig mysqld on
+$ sudo mysql_secure_installation
+`&lt;/pre&gt;
+
+## PHP
+
+&lt;pre&gt;`$ sudo yum install php php-mysql php-pecl-apc php-gd php-intl php-xml php-process php-pecl-xdebug
+`&lt;/pre&gt;
+
+Even it is necessary to specify the Time Zone into a config file within the `/etc/php.d` directory, in a new file called `timezone.ini`:
+
+&lt;pre&gt;`$ sudo gedit /etc/php.d/timezone.ini
+
+[Date]
+; Defines the default timezone used by the date functions 
+date.timezone = &quot;Europe/Paris&quot;
+`&lt;/pre&gt;
+
+and restart the apache server
+
+&lt;pre&gt;`$ sudo service httpd restart
+`&lt;/pre&gt;
+
+## PHPMyAdmin
+
+&lt;pre&gt;`$ sudo yum install phpmyadmin
+$ sudo service httpd restart
+`&lt;/pre&gt;
+
+The phpMyAdmin will be available at [http://localhost/phpmyadmin](http://localhost/myphpadmin).
+
+## Git
+
+&lt;pre&gt;`$ sudo yum install git
+`&lt;/pre&gt;
+
+## Symfony2
+
+Choose your work directory,
+
+&lt;pre&gt;`$ mkdir sites
+$ cd sites
+`&lt;/pre&gt;
+
+Install composer
+
+&lt;pre&gt;`$ curl -sS https://getcomposer.org/installer | php
+$ mv composer.phar /usr/local/bin/composer
+`&lt;/pre&gt;
+
+**Note**: If the above fails due to permissions, run the `mv` line again with `sudo`.
+
+Then, just run composer in order to run `composer` instead of `php composer.phar`.
+
+Create your symfony project
+
+&lt;pre&gt;`$ composer create-project symfony/framework-standard-edition api-article 2.3
+`&lt;/pre&gt;
+
+Here api-article is the name of project, 2.3 is the latest version of symfony.
+
+If everything goes well, you can continue to update or install vendors and configure caches and logs.
+
+&lt;pre&gt;`$ php ../composer.phar update
+$ setfacl -R -m u:apache:rwx -m u:`whoami`:rwx app/cache app/logs
+$ setfacl -dR -m u:apache:rwx -m u:`whoami`:rwx app/cache app/logs
+$ sudo ln -s ~/[project path]/web /var/www/html/[project name]
+$ sudo setfacl -m u:apache:x /home/`whoami`
+`&lt;/pre&gt;
+
+But, if unluckly, you came across with some problem during the update, such as this,
+
+&lt;pre&gt;`[UnexpectedValueException]                                                   
+&apos;/home/zhipeng/projects/sites/api-article/vendor/symfony/icu/Symfony/Component/Icu/70ba4a12bda6a6bd714ec1cddd087038.0&apos; is not a zip archive.
+`&lt;/pre&gt;
+
+I’m not sure where is the problem, some one told me it is because the cache of composer, some one said it is because the problem of symfony version. Well, I have not  found the solution. So at last I downloaded the tar pkg **with vendors** from [website](http://symfony.com/download). Unpack it and continue your command from `setfacl`,
+
+&lt;pre&gt;`$ setfacl -R -m u:apache:rwx -m u:`whoami`:rwx app/cache app/logs
+$ setfacl -dR -m u:apache:rwx -m u:`whoami`:rwx app/cache app/logs
+$ sudo ln -s ~/[project path]/web /var/www/html/[project name]
+$ sudo setfacl -m u:apache:x /home/`whoami`
+</code></pre><p>Now you can test your project from this page, for me it is <a href="http://localhost/api-article/app_dev.php/" target="_blank" rel="external">http://localhost/api-article/app_dev.php/</a>. It depends on the path of your soft lien in <code>/var/www/html/[project name]</code>.</p>
+<h2 id="Configure-SELINUX"><a href="#Configure-SELINUX" class="headerlink" title="Configure SELINUX"></a>Configure SELINUX</h2><p>SELINUX is the security policies manager that can prevent the Apache server to access to a home directory, or to successfully write into the app/cache and app/logs directories.</p>
+<p>We have two options:</p>
+<ul>
+<li><p>Disable SELINUX; It’s an option, although not the optimal for those that like of security on their systems. You disable SELINUX following this <a href="http://ashu-geek.blogspot.com.es/2011/12/how-to-disable-selinux-on-fedora-16.html" target="_blank" rel="external">tutorial</a>.</p>
+</li>
+<li><p>If you like the SELINUX protection, these are the commands you need to type to allow the Apache server to access on R/W to our project directories:</p>
+<p>$ sudo setsebool -P httpd_enable_homedirs true<br>$ sudo setsebool -P httpd_read_user_content true<br>$ sudo setsebool allow_httpd_anon_write true<br>$ sudo chcon -t chcon -t public_content_rw_t app/cache<br>$ sudo chcon -t chcon -t public_content_rw_t app/logs</p>
+</li>
+</ul>
+</div></article></div></section><footer><div class="paginator"><a href="/2013/08/17/Symfony2-2-NelmioApiDocBundle自动生成文档-译/" class="prev">PRVE</a><a href="/2013/08/15/Python-Note-5-data-structure/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2013/08/16/Symfony2-0-installation-and-configuration/';
+var disqus_title = 'Symfony2 (0) - installation and configuration';
+var disqus_url = 'http://yoursite.com/2013/08/16/Symfony2-0-installation-and-configuration/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

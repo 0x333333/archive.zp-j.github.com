@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Convert Cardinal Number to Ordinal Number · Zhipeng Jiang</title><meta name="description" content="Convert Cardinal Number to Ordinal Number - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Convert Cardinal Number to Ordinal Number</h1><div class="post-time">Aug 8, 2014</div><div class="post-content"><p>Found a really useful <a href="http://ecommerce.shopify.com/c/ecommerce-design/t/ordinal-number-in-javascript-1st-2nd-3rd-4th-29259" target="_blank" rel="external">function</a>, which converts <a href="http://en.wikipedia.org/wiki/Cardinal_number" target="_blank" rel="external">cardinal number</a> to <a href="http://en.wikipedia.org/wiki/Ordinal_number" target="_blank" rel="external">ordinal number</a>, for example:</p>
+<pre><code>1 -&amp;gt; 1st
+2 -&amp;gt; 2nd
+3 -&amp;gt; 3rd
+4 -&amp;gt; 4th
+`&lt;/pre&gt;
+
+I should say, it’s really cute, really beautiful, here we go:
+
+&lt;pre&gt;`function getOrdinal(n) {
+  var s=[&quot;th&quot;,&quot;st&quot;,&quot;nd&quot;,&quot;rd&quot;],
+    v=n%100;
+  return n+(s[(v-20)%10]||s[v]||s[0]);
+}
+</code></pre></div></article></div></section><footer><div class="paginator"><a href="/2014/08/25/Youtube-Vimeo-and-Soundcloud/" class="prev">PRVE</a><a href="/2014/08/01/Wikipedia-Infobox-Parser-in-NodeJS/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2014/08/08/Convert-Cardinal-Number-to-Ordinal-Number/';
+var disqus_title = 'Convert Cardinal Number to Ordinal Number';
+var disqus_url = 'http://yoursite.com/2014/08/08/Convert-Cardinal-Number-to-Ordinal-Number/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

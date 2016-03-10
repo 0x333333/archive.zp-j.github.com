@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> SSH login without password · Zhipeng Jiang</title><meta name="description" content="SSH login without password - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">SSH login without password</h1><div class="post-time">Oct 16, 2015</div><div class="post-content"><p>If you want to login from host_A (user a) to Host_B (user b), it is annoying to enter passwords everytime, because you want to call ssh from shell script.</p>
+<p>Ok it’s quite easy to do that:</p>
+<h2 id="Generate-public-key"><a href="#Generate-public-key" class="headerlink" title="Generate public key"></a>Generate public key</h2><p>First in host_A you need to generate a pair of authentication keys;</p>
+<pre><code>a@A:~&amp;gt; ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/a/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/a/.ssh/id_rsa.
+Your public key has been saved in /home/a/.ssh/id_rsa.pub.
+The key fingerprint is:
+40:55:82:6b:a4:93:d7:6c:8d:5b:36:6c:b8:ac:80:44 name@domain.com
+The key&apos;s randomart image is:
++--[ RSA 4096]----+
+|      .oo..      |
+|  E  .o  .       |
+| .   +.+ =       |
+|  . + +.* B      |
+| . . + oS* .     |
+|  . .   +        |
+|     . .         |
+|      .          |
+|                 |
++-----------------+
+`&lt;/pre&gt;
+
+## Create .ssh directory in host_B
+
+Create a directory ~/.ssh as user b on host_B. (The directory may already exist, which is fine):
+
+&lt;pre&gt;`a@A:~&amp;gt; ssh b@B mkdir -p .ssh
+b@B&apos;s password:
+`&lt;/pre&gt;
+
+## Append a’s public key to b
+
+Append a’s new public key to b@B:.ssh/authorized_keys and enter b’s password one last time:
+
+&lt;pre&gt;`a@A:~&amp;gt; cat .ssh/id_rsa.pub | ssh b@B &apos;cat &amp;gt;&amp;gt; .ssh/authorized_keys&apos;
+b@B&apos;s password:
+`&lt;/pre&gt;
+
+Voilà, from now on you can log into B as b from A as a without password:
+
+&lt;pre&gt;`a@A:~&amp;gt; ssh b@B
+</code></pre></div></article></div></section><footer><div class="paginator"><a href="/2015/10/17/Spark-zsh-no-matches-found-local/" class="prev">PRVE</a><a href="/2015/10/15/Compile-QuantLib-in-El-Capitan/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2015/10/16/SSH-login-without-password/';
+var disqus_title = 'SSH login without password';
+var disqus_url = 'http://yoursite.com/2015/10/16/SSH-login-without-password/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Wikipedia Infobox Parser in NodeJS · Zhipeng Jiang</title><meta name="description" content="Wikipedia Infobox Parser in NodeJS - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Wikipedia Infobox Parser in NodeJS</h1><div class="post-time">Aug 1, 2014</div><div class="post-content"><p>A parser for <a href="https://en.wikipedia.org/wiki/Help:Infobox" target="_blank" rel="external">Wikipedia Inforbox</a>, as described in Wikipedia help page:</p>
+<blockquote>
+<p>An infobox is a fixed-format table designed to be added to the top right-hand corner of articles to consistently present a summary of some unifying aspect that the articles share and sometimes to improve navigation to other interrelated articles.</p>
+</blockquote>
+<p><img src="https://nodei.co/npm/wiki-infobox-parser.png?downloads=true&amp;downloadRank=true" alt="alt nodejs_infobox_screenshot"></p>
+<p><img src="https://nodei.co/npm-dl/wiki-infobox-parser.png" alt="alt nodejs_infobox_screenshot"></p>
+<p><strong>Fork the <a href="https://github.com/zp-j/wiki-infobox-parser" target="_blank" rel="external">repo</a> and do whatever you can to help!</strong></p>
+<h2 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h2><p>It’s still on development, it needs to support more markup templates.</p>
+<ul>
+<li>Get Wikipedia Infobox by keyword</li>
+<li>Support keyword redirection</li>
+<li>Convert Wikipedia Markup text to JSON text</li>
+</ul>
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><pre><code>npm install wiki-infobox-parser
+</code></pre><h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> wikiParser = <span class="built_in">require</span>(‘wiki-infobox-parser’);</span><br><span class="line"></span><br><span class="line">wikiParser(‘france’, <span class="function"><span class="keyword">function</span>(<span class="params">err, result</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (err) &#123;</span><br><span class="line">		<span class="built_in">console</span>.error(err.message);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(result);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h2><p><img src="http://7sbqda.com1.z0.glb.clouddn.com/Screen%20Shot%202015-10-20%20at%2000.11.13.png" alt="alt nodejs_infobox_screenshot"></p>
+<p>The parsed result is</p>
+<p><code>json
+{
+    &quot;name&quot;: &quot;Node.js&quot;,
+    &quot;logo&quot;: &quot;frameless&quot;,
+    &quot;author&quot;: &quot;Ryan Dahl&quot;,
+    &quot;developer&quot;: &quot;[https://github.com/ry/node/blob/master/AUTHORS Node.js Developers], Joyent, [https://github.com/joyent/node/graphs/contributors GitHub Contributors]&quot;,
+    &quot;operating system&quot;: &quot;OS X, Linux, Solaris, FreeBSD, OpenBSD, Microsoft Windows (older versions require Cygwin), webOS, NonStop OS&quot;,
+    &quot;status&quot;: &quot;Active&quot;,
+    &quot;released&quot;: &quot;2009/05/27&quot;,
+    &quot;latest release version&quot;: &quot;4.2.1&quot;,
+    &quot;latest release date&quot;: &quot;2015/10/13&quot;,
+    &quot;programming language&quot;: &quot;C, C++, JavaScript&quot;,
+    &quot;genre&quot;: &quot;Event-driven networking&quot;,
+    &quot;license&quot;: &quot;MIT&quot;,
+    &quot;website&quot;: &quot;http://nodejs.org&quot;
+}</code></p>
+<h2 id="How-to-contribute"><a href="#How-to-contribute" class="headerlink" title="How to contribute"></a>How to contribute</h2><h3 id="Todo"><a href="#Todo" class="headerlink" title="Todo"></a>Todo</h3><ul>
+<li>Support map caption</li>
+<li>Support link &amp; free link</li>
+<li>Support picture</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+<li>Support template:</li>
+</ul>
+<h3 id="Issue-tracker"><a href="#Issue-tracker" class="headerlink" title="Issue tracker"></a>Issue tracker</h3><p><img src="http://7sbqda.com1.z0.glb.clouddn.com/Screen%20Shot%202015-10-20%20at%2001.25.49.png" alt="img"></p>
+<ul>
+<li>Please check this project on PivatalTracker: <a href="https://www.pivotaltracker.com/n/projects/1451530" target="_blank" rel="external">https://www.pivotaltracker.com/n/projects/1451530</a></li>
+<li>Github issue: <a href="https://github.com/zp-j/wiki-infobox-parser/issues" target="_blank" rel="external">https://github.com/zp-j/wiki-infobox-parser/issues</a></li>
+</ul>
+<p>Don’t hesitate to contact me when you have any issue or idea about this parser, both PivotalTracker and Github issue are welcomed!</p>
+<h3 id="Tests"><a href="#Tests" class="headerlink" title="Tests"></a>Tests</h3><p><code>shell
+make test</code></p>
+<p>Before sending a PR please add corresponding tests, thanks!</p>
+<h2 id="Contributors"><a href="#Contributors" class="headerlink" title="Contributors"></a>Contributors</h2><ul>
+<li><a href="http://zp-j.github.io" target="_blank" rel="external">Zhipeng Jiang</a></li>
+<li><a href="https://github.com/sagarkarira" target="_blank" rel="external">Sagar Karira</a></li>
+<li><a href="https://github.com/EvanBoyle" target="_blank" rel="external">Evan Boyle</a></li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://en.wikipedia.org/w/api.php" target="_blank" rel="external">Wikipedia API</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Help:Wiki_markup" target="_blank" rel="external">Syntax of Wiki Markup</a></li>
+</ul>
+</div></article></div></section><footer><div class="paginator"><a href="/2014/08/08/Convert-Cardinal-Number-to-Ordinal-Number/" class="prev">PRVE</a><a href="/2014/07/31/胡言乱语3/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2014/08/01/Wikipedia-Infobox-Parser-in-NodeJS/';
+var disqus_title = 'Wikipedia Infobox Parser in NodeJS';
+var disqus_url = 'http://yoursite.com/2014/08/01/Wikipedia-Infobox-Parser-in-NodeJS/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

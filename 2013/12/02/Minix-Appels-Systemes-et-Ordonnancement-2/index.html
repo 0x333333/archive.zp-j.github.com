@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Minix Appels Systèmes et Ordonnancement 2 · Zhipeng Jiang</title><meta name="description" content="Minix Appels Systèmes et Ordonnancement 2 - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Minix Appels Systèmes et Ordonnancement 2</h1><div class="post-time">Dec 2, 2013</div><div class="post-content"><h1 id="Preface"><a href="#Preface" class="headerlink" title="Préface"></a>Préface</h1><p>C’est mes reponses pour le cours Info-524: <a href="http://www.lama.univ-savoie.fr/~hyvernat/Enseignement/1314/info524/tp3.html" target="_blank" rel="external">Système d’exploitation</a></p>
+<h1 id="Questions"><a href="#Questions" class="headerlink" title="Questions"></a>Questions</h1><h3 id="Question-2"><a href="#Question-2" class="headerlink" title="Question 2"></a>Question 2</h3><p>Vous inclure un fichier “reponses.txt” à votre archive qui contiendra :</p>
+<ul>
+<li>le numéro en base 10 du message “PM_CHANGE_NAME”</li>
+<li><p>votre réponse à la remarque ci dessus.</p>
+<p>Ox900 = 2304, donc le numéro en base 10 du message “PM_CHANGE_NAME” est 2316.</p>
+<p>La commande “ps” signaler un aperçu des processus en cours, mais selon le premier exercise, on a vu que c’est possible de changer le nom du processus dynamiquement par le appel système “changer_nom”. Donc on utilise “top” au lieu de “ps” pour afficher les processus dynamiquement.</p>
+</li>
+</ul>
+<h3 id="Question-3"><a href="#Question-3" class="headerlink" title="Question 3"></a>Question 3</h3><p>Cherchez la valeur de “NR_SCHED_QUEUES”.</p>
+<pre><code>Dans le fichier &quot;config.h&quot; en 78eme ligne, NR_SCHED_QUEUES = 16.
+`&lt;/pre&gt;
+
+Quelle est la priorité par défaut d’un processus noyau (“TASK_Q”) ?
+
+&lt;pre&gt;`Un processus noyau &quot;TASK_Q&quot; a une priorité de 0, ça veut dire que il a la priorité maximale.
+`&lt;/pre&gt;
+
+Quelle est la priorité par défaut d’un processus utilisateur (“USER_Q”) ?
+
+&lt;pre&gt;`    USER_Q = (MIN_SUER_Q - MAX_USER_Q) / 2 + MAX_USER_Q
+Sachant que:
+    MIN_USER_Q = NR_SCHED_QUEUES - 1
+         = 15
+    MAX_USER_Q = 0
+Donc:
+    USER_Q = (15 - 0) / 2 + 0
+           = 7
+`&lt;/pre&gt;
+
+### Question 4
+
+Vérifiez dans le code des fonctions “do_noquantum()” et “balance_queues()” que c’est bien ce qu’il se passe et donnez les lignes pertinentes dans votre fichier reponses.txt.
+
+&lt;pre&gt;`&quot;do_noquantum()&quot;:
+
+Parmi les lignes 42 et 45, il obtient rmp et vérifie la priorité du rmp. Si la priorité est inférieur à MIN_USER_Q(15), il va augmenter la priorité par 1, c&apos;est à dire que la priorité est baissée par 1.
+
+&quot;balance_queues()&quot;:
+
+Parmi les lignes 246 et 256, pour chaque processus, si un rmp n&apos;a pas la priorité maximale, il va diminuer la priorité par 1, c&apos;est à dire que la priorité est augumentée par 1.
+`&lt;/pre&gt;
+
+### Question 5
+
+&lt;pre&gt;`Décrivez une situation théorique dans laquelle une famine peut apparaitre avec cet algorithme d&apos;ordonnancement. (Pas besoin de programmer quoi que ce soit...)
+
+Supposant que un processus avec un priorité faible se retrouve bloqué avant que son quantum de temps ne soit écoulé, même si sa priorité ne change pas, mais il est simplement remis en fin de file. De même, les fois suivante quand le processus execute, il s&apos;est bloqué encore, donc il est remis en fin encore une fois. Donc la famine de le processus apparaît.
+`&lt;/pre&gt;
+
+# Code
+
+Veuillez consulter le projet sous Github: [MinixOrdonnancement](https://github.com/zp-j/MinixOrdonnancement)
+
+### Architecture d’appels
+
+![pic](http://media-cache-ec0.pinimg.com/originals/ad/0d/6f/ad0d6f847828bb821eb0b5f1cf6c6107.jpg)
+
+**/usr/src/servers/sched/schedule.c : do_superman()**
+
+&lt;pre&gt;`PUBLIC int do_superman(message *m_ptr)
+{
+    int proc_nb;
+    int rv;
+    struct schedproc *rmp;
+    unsigned old_p, old_s;
+
+    /* Get pid */
+    int endpoint = m_ptr-&amp;gt;m1_i1;
+
+    /* Convert pid */
+    if (sched_isokendpt(endpoint, \&amp;amp;proc_nb) != OK) {
+        printf(&quot;SCHED: WARNING: superman() get an invalid endpoint\n&quot;);
+        return EBADEPT;
+    }
+
+    /* Get correspond processus */
+    rmp = \&amp;amp;schedproc[proc_nb];
+
+    /* Store old values, in case we need to roll back the changes */
+    old_p = rmp-&amp;gt;priority;
+    /*printf(&quot;log: Old priority before superman: %d\n&quot;, old_p);*/
+    old_s = rmp-&amp;gt;superman;
+
+    /* Update the proc priority and reschedule the process */
+    if (old_p != 0 \&amp;amp;\&amp;amp; old_s != 1) {
+        rmp-&amp;gt;priority = 0;
+        rmp-&amp;gt;superman = 1;
+    }
+
+    if ((rv = schedule_process(rmp)) != OK) {
+        rmp-&amp;gt;priority = old_p;
+        rmp-&amp;gt;superman = old_s;
+    }
+
+    /*printf(&quot;log: New priority after superman: %d\n&quot;, rmp-&amp;gt;priority);*/
+
+    return rv;
+}
+`&lt;/pre&gt;
+
+**/usr/src/servers/sched/schedule.c : do_kryptonite()**
+
+&lt;pre&gt;`PUBLIC int do_kryptonite(message *m_ptr)
+{
+    int proc_nb;
+    int rv;
+    struct schedproc *rmp;
+    unsigned old_p, old_s;
+
+    /* Get pid */
+    int endpoint = m_ptr-&amp;gt;m1_i1;
+
+    /* Convert pid */
+    if (sched_isokendpt(endpoint, \&amp;amp;proc_nb) != OK) {
+        printf(&quot;SCHED: WARNING: superman() get an invalid endpoint&quot;);
+        return EBADEPT;
+    }
+
+    /* Get correspond processus */
+    rmp = \&amp;amp;schedproc[proc_nb];
+
+    /* Store old values, in case we need to roll back the changes */
+    old_p = rmp-&amp;gt;priority;
+    old_s = rmp-&amp;gt;superman;
+     /*printf(&quot;log: Old priority before superman: %d\n&quot;, old_p);*/
+
+    /* Update the proc priority and reschedule the process */
+    if (old_p == 0 \&amp;amp;\&amp;amp; old_s == 1) {
+        rmp-&amp;gt;priority = 0;
+        rmp-&amp;gt;superman = 0;
+    }
+
+    if ((rv = schedule_process(rmp)) != OK) {
+        rmp-&amp;gt;priority = old_p;
+        rmp-&amp;gt;superman = old_s;
+    }
+
+    /*printf(&quot;log: New priority after superman: %d\n&quot;, rmp-&amp;gt;priority);*/
+
+    return rv;
+}
+</code></pre><p>Vous pouvez trouvez tout les code sous Github: <a href="https://github.com/zp-j/MinixOrdonnancement" target="_blank" rel="external">MinixOrdonnancement</a></p>
+</div></article></div></section><footer><div class="paginator"><a href="/2013/12/04/法语DALF考试/" class="prev">PRVE</a><a href="/2013/12/01/Minix调度算法/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2013/12/02/Minix-Appels-Systemes-et-Ordonnancement-2/';
+var disqus_title = 'Minix Appels Systèmes et Ordonnancement 2';
+var disqus_url = 'http://yoursite.com/2013/12/02/Minix-Appels-Systemes-et-Ordonnancement-2/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Test for IndexedDB with Polyfill · Zhipeng Jiang</title><meta name="description" content="Test for IndexedDB with Polyfill - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Test for IndexedDB with Polyfill</h1><div class="post-time">Mar 13, 2014</div><div class="post-content"><p>Test for a polyfill to enable IndexedDB using WebSql.</p>
+<p>IndexedDB is not supported on <a href="http://caniuse.com/#search=IndexedDB" target="_blank" rel="external">all browsers</a>.<br>This IndexedDB polyfill exposes the IndexedDB API in unsupported browsers using WebSQL. This shim is basically an IndexedDB-WebSql adapter.</p>
+<p>More details of IndexedDB browsers support can be found in this graph:</p>
+<p><img src="https://dl.dropboxusercontent.com/u/107773577/Blog%20pics/Screen%20Shot%202014-08-25%20at%2011.29.51%20AM.png" alt="pic"></p>
+<p>The latest support condition can be found here: <a href="http://caniuse.com/#search=IndexedDB" target="_blank" rel="external">http://caniuse.com/#search=IndexedDB</a></p>
+<p>Using this polyfill, you can use a single offline storage API across browsers (Opera, Safari, Firefox, Chrome and IE10) and even mobile devices (Phonegap on iOS and Android).</p>
+<h2 id="How-to-test"><a href="#How-to-test" class="headerlink" title="How to test"></a>How to test</h2><h4 id="Include-polyfill"><a href="#Include-polyfill" class="headerlink" title="Include polyfill"></a>Include polyfill</h4><p>To use the polyfill, simply download <a href="https://raw.github.com/axemclion/IndexedDBShim/master/dist/IndexedDBShim.min.js" target="_blank" rel="external">the concatenated, minified product</a> and include it in your HTML document.</p>
+<h4 id="Initialize-database"><a href="#Initialize-database" class="headerlink" title="Initialize database"></a>Initialize database</h4><pre class="prettyprint linenums">
+if (typeof window.mozIndexedDB !== "undefined") {
+  window.indexedDB = window.mozIndexedDB;
+}
+else {
+  window.indexedDB = window.shimIndexedDB;
+  window.shimIndexedDB.__useShim();     // force to use polyfill
+  window.shimIndexedDB.__debug(true);   // enable debug
+  console.log("Starting Tests with shimIndexedDB");
+}
+</pre>
+
+<h4 id="Create-database"><a href="#Create-database" class="headerlink" title="Create database"></a>Create database</h4><p>Normally there are other function that need to add so as to make debug easier, such as <code>onerror</code> or <code>onabort</code>, etc.</p>
+<pre class="prettyprint linenums">
+// Create database
+var dbOpenRequest = window.indexedDB.open('library');
+
+dbOpenRequest.onsuccess = function(e){
+  console.log("Database Opened successfully");
+  db = dbOpenRequest.result;
+};
+
+dbOpenRequest.onupgradeneeded = function(e){
+  console.log("Database Upgraded successfully");
+  db = dbOpenRequest.result;
+  // Define data structure and primary key
+  store = db.createObjectStore('books', {
+    keyPath: "isbn",
+    "autoIncrement": false
+  });
+
+  var isbnIndex = store.createIndex("by_isbn", "isbn", {unique: true});
+  var titleIndex = store.createIndex("by_title", "title");
+  var authorIndex = store.createIndex("by_author", "author");
+
+  store.put({title: "Quarry Memories", author: "Fred", isbn: 123456});
+  store.put({title: "Water Buffaloes", author: "Fred", isbn: 234567});
+  store.put({title: "Bedrock Nights", author: "Barney", isbn: 345678});
+
+};
+</pre>
+
+<h4 id="Add-record"><a href="#Add-record" class="headerlink" title="Add record"></a>Add record</h4><pre class="prettyprint linenums">
+store.put({title: "Quarry Memories", author: "Fred", isbn: 123456});
+</pre>
+
+<h4 id="Add-record-1"><a href="#Add-record-1" class="headerlink" title="Add record"></a>Add record</h4><pre class="prettyprint linenums">
+store.delete(id);
+</pre>
+
+<h4 id="Clear-database"><a href="#Clear-database" class="headerlink" title="Clear database"></a>Clear database</h4><pre class="prettyprint linenums">
+store.clear();
+</pre>
+
+<h4 id="Close-connection"><a href="#Close-connection" class="headerlink" title="Close connection"></a>Close connection</h4><pre class="prettyprint linenums">
+db.close();
+</pre>
+
+<h2 id="Test-results"><a href="#Test-results" class="headerlink" title="Test results"></a>Test results</h2><p>Chrome</p>
+<p><img src="http://media-cache-ak0.pinimg.com/originals/6e/f5/09/6ef509f05185950bcad58887cb806dad.jpg" alt="pic"></p>
+<p>Firefox</p>
+<p><img src="http://media-cache-ec0.pinimg.com/originals/eb/92/83/eb9283ed6789b74385dd674248971cb9.jpg" alt="pic"></p>
+<p>Opera</p>
+<p><img src="http://media-cache-ak0.pinimg.com/736x/78/ad/8f/78ad8f1aeaf0d4f67b84f19af5f92934.jpg" alt="pic"></p>
+<p>Safari</p>
+<p><img src="http://media-cache-ak0.pinimg.com/736x/85/c7/2a/85c72ae06cfbb64b1444e44da82d9c28.jpg" alt="pic"></p>
+</div></article></div></section><footer><div class="paginator"><a href="/2014/03/19/NodeJS学习笔记/" class="prev">PRVE</a><a href="/2014/03/06/Word-number-conversion-in-Javascript/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2014/03/13/Test-for-IndexedDB-with-Polyfill/';
+var disqus_title = 'Test for IndexedDB with Polyfill';
+var disqus_url = 'http://yoursite.com/2014/03/13/Test-for-IndexedDB-with-Polyfill/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>

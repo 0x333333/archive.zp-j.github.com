@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Spark: zsh no matches found local · Zhipeng Jiang</title><meta name="description" content="Spark: zsh no matches found local - Zhipeng Jiang"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="short icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600" type="text/css"></head><body><header><a href="/" class="logo-link"><img src="/favicon.png"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="http://weibo.com/jesusjzp" target="_blank" class="nav-list-link">WEIBO</a></li><li class="nav-list-item"><a href="https://github.com/zp-j" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><section class="container"><div class="post"><article class="post-block"><h1 class="post-title">Spark: zsh no matches found local</h1><div class="post-time">Oct 17, 2015</div><div class="post-content"><h2 id="Issue"><a href="#Issue" class="headerlink" title="Issue"></a>Issue</h2><p>When I was trying to submit a Spark streaming application with this script:</p>
+<pre><code>$ ~/spark/bin/spark-submit \
+--class &quot;com.databricks.apps.logs.chapter1.LogAnalyzerStreaming&quot; \
+--master local[4] \
+target/log-analyzer-1.0.jar \
+apache.access.log
+`&lt;/pre&gt;
+
+I came across this error from zsh:
+
+&lt;pre&gt;`$ zsh: no matches found: local[4]
+`&lt;/pre&gt;
+
+## Solution
+
+I replaced `local[4]` with `local` it seemed to work, but according to the usage of [master URL](http://spark.apache.org/docs/latest/submitting-applications.html#master-urls):
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;local&lt;/td&gt;
+      &lt;td&gt;run Spark locally with one worker thread (i.e. no parallelism at all)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;local[K]&lt;/td&gt;
+      &lt;td&gt;run Spark locally with K worker threads (ideally, set K to the number of cores on your machine)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+I should not change the master URL because I wanted it to run in parallelism.
+
+So I changed back to `bash` and run spark submit script again, interestingly it worked! Obviously it was an issue of `zsh`.
+
+According this post [Zsh says “no matches found” when trying to download video with youtube-dl](http://superuser.com/questions/649635/zsh-says-no-matches-found-when-trying-to-download-video-with-youtube-dl), it said that zsh only accepts parameters by quoting them:
+
+&lt;pre&gt;`$ ~/spark/bin/spark-submit \
+--class &quot;com.databricks.apps.logs.chapter1.LogAnalyzerStreaming&quot; \
+--master &quot;local[4]&quot; \
+target/log-analyzer-1.0.jar \
+apache.access.log
+`&lt;/pre&gt;
+
+It worked!
+
+## Conclusion
+
+In zsh, by default, a failed expansion is an error, but in Bash it isn’t: the failed pattern is just left as an argument exactly as it was written. zsh’s behaviour is safer, in that you can’t write a command that secretly doesn’t do what you meant because a file was missing, but you can change it to have the Bash behaviour if you want:
+
+&lt;pre&gt;`setopt nonomatch
+`&lt;/pre&gt;
+
+This will resolve the original use case. In general it will be better to quote arguments with special characters, though, in order to avoid any mistakes where a file happens to exist with a corresponding name, or doesn’t exist when you thought it did.
+
+The [NOMATCH option is on](http://zsh.sourceforge.net/Doc/Release/Options.html#index-NOMATCH) by default, and causes the errors I were seeing. If you disable it with `setopt nonomatch` then any failed glob expansions will be left intact on the command line, for example:
+
+&lt;pre&gt;`$ echo foo?bar
+zsh: no matches found: foo?bar
+$ setopt nonomatch
+$ echo foo?bar
+foo?bar
+</code></pre></div></article></div></section><footer><div class="paginator"><a href="/2015/10/20/Thoughts-on-open-source-projects-as-a-junior-developer/" class="prev">PRVE</a><a href="/2015/10/16/SSH-login-without-password/" class="next">NEXT</a></div><div id="disqus_thread"></div><script>var disqus_shortname = 'ZhipengJiang';
+var disqus_identifier = '2015/10/17/Spark-zsh-no-matches-found-local/';
+var disqus_title = 'Spark: zsh no matches found local';
+var disqus_url = 'http://yoursite.com/2015/10/17/Spark-zsh-no-matches-found-local/';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script><script id="dsq-count-scr" src="//ZhipengJiang.disqus.com/count.js" async></script><div class="copyright"><p>© 2013 - 2016 <a href="http://yoursite.com">Zhipeng Jiang</a>, unless otherwise noted.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"UA-47515905-1",'auto');ga('send','pageview');</script><script src="https://cdn.bootcss.com/mathjax/2.5.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script></body></html>
